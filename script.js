@@ -13,10 +13,13 @@ function displayStories(stories) {
     title.textContent = story.title;
     title.style.cursor = "pointer";
 
+    // عند الضغط على العنوان
     title.addEventListener("click", () => {
       if (story.parts) {
+        // لو القصة فيها أجزاء
         showParts(story.parts, story.title, stories);
       } else if (story.content) {
+        // لو القصة قصيرة بنص واحد
         showContent(story.content, story.title, null, stories);
       }
     });
@@ -38,6 +41,7 @@ function showParts(parts, storyTitle, allStories) {
     container.appendChild(btn);
   });
 
+  // زر رجوع للقائمة
   const backBtn = document.createElement("button");
   backBtn.textContent = "رجوع للقائمة";
   backBtn.addEventListener("click", () => {
@@ -53,6 +57,7 @@ function showContent(content, storyTitle, partNumber, allStories) {
     : `<h2>${storyTitle}</h2>`;
   container.innerHTML = `${header}<p>${content}</p>`;
 
+  // زر رجوع للقائمة
   const backBtn = document.createElement("button");
   backBtn.textContent = "رجوع للقائمة";
   backBtn.addEventListener("click", () => {

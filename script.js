@@ -14,7 +14,11 @@ function displayStories(stories) {
     title.style.cursor = "pointer";
 
     title.addEventListener("click", () => {
-      showParts(story.parts, story.title, stories);
+      if (story.parts) {
+        showParts(story.parts, story.title, stories);
+      } else if (story.content) {
+        showContent(story.content, story.title, null, stories);
+      }
     });
 
     container.appendChild(title);
@@ -34,7 +38,6 @@ function showParts(parts, storyTitle, allStories) {
     container.appendChild(btn);
   });
 
-  // زر رجوع للقائمة الرئيسية
   const backBtn = document.createElement("button");
   backBtn.textContent = "رجوع للقائمة";
   backBtn.addEventListener("click", () => {
@@ -45,13 +48,15 @@ function showParts(parts, storyTitle, allStories) {
 
 function showContent(content, storyTitle, partNumber, allStories) {
   const container = document.getElementById("stories");
-  container.innerHTML = `<h2>${storyTitle} - الجزء ${partNumber}</h2><p>${content}</p>`;
+  const header = partNumber
+    ? `<h2>${storyTitle} - الجزء ${partNumber}</h2>`
+    : `<h2>${storyTitle}</h2>`;
+  container.innerHTML = `${header}<p>${content}</p>`;
 
-  // زر رجوع للأجزاء
   const backBtn = document.createElement("button");
-  backBtn.textContent = "رجوع للأجزاء";
+  backBtn.textContent = "رجوع للقائمة";
   backBtn.addEventListener("click", () => {
-    showParts(allStories.find(s => s.title === storyTitle).parts, storyTitle, allStories);
+    displayStories(allStories);
   });
   container.appendChild(backBtn);
 }

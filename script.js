@@ -13,7 +13,6 @@ function displayStories(stories) {
     title.textContent = story.title;
     title.style.cursor = "pointer";
 
-    // عند الضغط على العنوان
     title.addEventListener("click", () => {
       showParts(story.parts, story.title);
     });

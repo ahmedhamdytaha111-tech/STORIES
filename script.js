@@ -14,14 +14,14 @@ function displayStories(stories) {
     title.style.cursor = "pointer";
 
     title.addEventListener("click", () => {
-      showParts(story.parts, story.title);
+      showParts(story.parts, story.title, stories);
     });
 
     container.appendChild(title);
   });
 }
 
-function showParts(parts, storyTitle) {
+function showParts(parts, storyTitle, allStories) {
   const container = document.getElementById("stories");
   container.innerHTML = `<h2>${storyTitle}</h2>`;
 
@@ -29,15 +29,31 @@ function showParts(parts, storyTitle) {
     const btn = document.createElement("button");
     btn.textContent = `الجزء ${index + 1}`;
     btn.addEventListener("click", () => {
-      showContent(part, storyTitle, index + 1);
+      showContent(part, storyTitle, index + 1, allStories);
     });
     container.appendChild(btn);
   });
+
+  // زر رجوع للقائمة الرئيسية
+  const backBtn = document.createElement("button");
+  backBtn.textContent = "رجوع للقائمة";
+  backBtn.addEventListener("click", () => {
+    displayStories(allStories);
+  });
+  container.appendChild(backBtn);
 }
 
-function showContent(content, storyTitle, partNumber) {
+function showContent(content, storyTitle, partNumber, allStories) {
   const container = document.getElementById("stories");
   container.innerHTML = `<h2>${storyTitle} - الجزء ${partNumber}</h2><p>${content}</p>`;
+
+  // زر رجوع للأجزاء
+  const backBtn = document.createElement("button");
+  backBtn.textContent = "رجوع للأجزاء";
+  backBtn.addEventListener("click", () => {
+    showParts(allStories.find(s => s.title === storyTitle).parts, storyTitle, allStories);
+  });
+  container.appendChild(backBtn);
 }
 
 loadStories();

@@ -1,38 +1,13 @@
-// قراءة ملف القصص
-fetch("stories.json")
+// قراءة ملف القصة الواحدة
+fetch("story.json")
   .then(res => res.json())
   .then(data => {
-    const storiesList = document.getElementById("stories");
+    // عرض العنوان
+    document.getElementById("title").innerText = data.title;
+
+    // عرض الأجزاء
     const storyContainer = document.getElementById("story");
-
-    // عرض أسماء القصص
-    data.forEach((story, index) => {
-      const li = document.createElement("li");
-      li.innerText = story.title;
-      li.onclick = () => showStory(index, data);
-      storiesList.appendChild(li);
-    });
-
-    function showStory(index, data) {
-      storyContainer.innerHTML = ""; // مسح القديم
-      const story = data[index];
-
-      // لو القصة فيها أجزاء
-      if (story.parts.length > 1 && story.parts[0].part) {
-        story.parts.forEach(part => {
-          const btn = document.createElement("button");
-          btn.innerText = "الجزء " + part.part;
-          btn.onclick = () => showPart(part);
-          storyContainer.appendChild(btn);
-        });
-      } else {
-        // لو القصة كلها مرة واحدة
-        showPart(story.parts[0]);
-      }
-    }
-
-    function showPart(part) {
-      storyContainer.innerHTML = "";
+    data.parts.forEach(part => {
       const partDiv = document.createElement("div");
       partDiv.className = "story-part";
 
@@ -43,8 +18,8 @@ fetch("stories.json")
       });
 
       storyContainer.appendChild(partDiv);
-    }
+    });
   })
   .catch(error => {
-    document.getElementById("story").innerText = "في مشكلة في قراءة القصص: " + error;
+    document.getElementById("story").innerText = "في مشكلة في قراءة القصة: " + error;
   });
